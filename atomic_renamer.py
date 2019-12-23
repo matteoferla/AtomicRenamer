@@ -158,7 +158,36 @@ class AtomicNamer:
                 else:
                     mollabels.append(el + str(counters[el]))
         return mollabels
-
+    
+    @staticmethod
+    def fix(infile: str, outfile: str, atomlabels: List):
+        with open(outfile, 'w') as w:
+            with open(infile) as r:
+                counter = 20
+                for line in r:
+                    if '@ATOM' in line:
+                        definitions = True
+                        w.write(line)
+                        continue
+                    elif '@BOND' in line:
+                        definitions = False
+                        w.write(line)
+                        continue
+                    elif definitions:
+                        index, name, x, y, z, element, n, resn, charge = line.split()
+                        i = int(index) - 1
+                        if i < len(atomlabels):
+                            assert element[0] in atomlabels[i], "The indices are no longer aligned." 
+                            
+                        else:
+                            assert element[0] == 'H', "The indices are no longer aligned." 
+                            newname = element[0] + str(counter)
+                            counter += 1
+                        new = f" {index:>6} {newname:<4}       {float(x):>7}   {float(y):>7}   {float(z):>7} {element:<6}  0  {resn}         {float(charge):>5}\n"
+                        w.write(new)
+                    else:
+                        w.write(line)
+                        
     @staticmethod
     def display(mol: Chem.rdchem.Mol, show='name'):
         # show = 'index' | 'name'
@@ -177,6 +206,8 @@ class AtomicNamer:
                     raise ValueError
         display(Draw.MolToImage(mol))
         return None
+    
+    
 
 def test():
     atpnamer = AtomicNamer('ATP')
