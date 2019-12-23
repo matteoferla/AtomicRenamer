@@ -11,12 +11,11 @@ Open babel if given a sdf of an amino acid and asked to convert to a mol2 will l
 
 This short script given a molecule (_e.g._ `mol = Chem.MolFromSmiles('C1=NC2=C(N1)C(=O)NC(=N2)N')`) and reference PDB ligand code (_e.g._ `ATP`) will label in place the molecule (adding the property `AtomLabel`) and return a list of atom names (with indices matching the atomic indices obvious).
 
-
-  from rdkit import Chem
-  from atomic_renamer import AtomicNamer
-  mol = Chem.MolFromSmiles('C1=NC2=C(N1)C(=O)NC(=N2)N')
-  AtomicNamer('ATP').name(mol)
-  \['C8', 'N9', 'C4', 'C5', 'N7', 'C6', 'OX1', 'N6', 'C2', 'N3', 'N1']
+    >>> from rdkit import Chem
+    >>> from atomic_renamer import AtomicNamer
+    >>> mol = Chem.MolFromSmiles('C1=NC2=C(N1)C(=O)NC(=N2)N')
+    >>> AtomicNamer('ATP').name(mol)
+    ['C8', 'N9', 'C4', 'C5', 'N7', 'C6', 'OX1', 'N6', 'C2', 'N3', 'N1']
    
 The atom name/label is assigned to the prop `AtomLabel` (following https://www.rdkit.org/docs/RDKit_Book.html).
 
