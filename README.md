@@ -41,3 +41,11 @@ These labels can be saved as `mol2` in a convoluted way, becuase the mol2 writer
 
 Once this is done, the mol2 can be used. If using Rosetta and are about to parametrise it, why not check out my [2to3 port of mol_to_params.py](https://github.com/matteoferla/mol_to_params.py)?
 
+Also, for more stuff, see [my blog post about Rdkit](https://blog.matteoferla.com/2019/10/rdkit-for-rosetta-plp-ligand-space-as.html).
+
+## Under the hood
+
+The attributes `.ref` and `.reflabels` contain the RDKit `Chem.rdchem.Mol` object and the list of atom names. So if you want to use something that isn't a PDB ligand code you can.
+
+The reason for using the PDB ligand code is that if you change the name of a residue (in TextEdit or PyMOL) and run the structure through Rosetta will change it. This is handy for post translation modifications —for more see [my blog post about PTMs and Rosetta](https://blog.matteoferla.com/2019/01/phosphorylated-pdb-files.html).
+
