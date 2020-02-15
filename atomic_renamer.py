@@ -163,6 +163,7 @@ class AtomicNamer:
     def fix(infile: str, outfile: str, atomlabels: List):
         with open(outfile, 'w') as w:
             with open(infile) as r:
+                definitions = False
                 counter = 20
                 for line in r:
                     if '@ATOM' in line:
@@ -173,7 +174,7 @@ class AtomicNamer:
                         definitions = False
                         w.write(line)
                         continue
-                    elif definitions:
+                    elif line:
                         index, name, x, y, z, element, n, resn, charge = line.split()
                         i = int(index) - 1
                         if i < len(atomlabels):
