@@ -14,6 +14,17 @@ Open babel if given a sdf of an amino acid and asked to convert to a mol2 will l
 
 This stems also from the fact that mol (sdf) files do not specify atom labels in the main block. Mol2 and PDB do however.
 
+## Why not rdMolAlign.AlignMol?
+
+It is different from the more traditional approach using `rdMolAlign.AlignMol`. As demonstrated in [example_of_alt_way.py](example_of_alt_way.py).
+The `rdMolAlign.AlignMol` is simpler, but does not keep atom names.
+
+So this script is useful if you want to
+* subtly change one molecule with another and just let the pose loading in rosetta fix it
+* play around in PyMOL app and manually align or show atom labels
+
+Both end results can be given to mol_to_params.py fine —or to my [2to3 port of mol_to_params.py](https://github.com/matteoferla/mol_to_params.py) which can be used as a module.
+
 ## Script
 This short script given a molecule (_e.g._ `mol = Chem.MolFromSmiles('C1=NC2=C(N1)C(=O)NC(=N2)N')`) and reference PDB ligand code (_e.g._ `ATP`) will label in place the molecule (adding the property `AtomLabel`) and return a list of atom names (with indices matching the atomic indices obvious).
 
@@ -30,6 +41,7 @@ Note, that while there is a bound method called `.display(mol)`, I have not fini
 These labels can be saved as `mol2` in a convoluted way, becuase the mol2 writer in Rdkit is a bit tempramental. So using open babel is better and using the bound method `AtomicNamer.fix` to fix these.
 
     >>> mol.UpdatePropertyCache() # I might have changed some atoms around
+    >>> #if you are an optimist you could try... Chem.SanitizeMol(mol) 
     >>> mol = Chem.AddHs(mol) #protonate explicitly
     >>> Chem.GetSSSR(mol) #not communists, but resonance fixing
     >>> AllChem.EmbedMolecule(mol) #initialise for 3d.
@@ -48,4 +60,5 @@ Also, for more stuff, see [my blog post about Rdkit](https://blog.matteoferla.co
 The attributes `.ref` and `.reflabels` contain the RDKit `Chem.rdchem.Mol` object and the list of atom names. So if you want to use something that isn't a PDB ligand code you can.
 
 The reason for using the PDB ligand code is that if you change the name of a residue (in TextEdit or PyMOL) and run the structure through Rosetta will change it. This is handy for post translation modifications —for more see [my blog post about PTMs and Rosetta](https://blog.matteoferla.com/2019/01/phosphorylated-pdb-files.html).
+
 
