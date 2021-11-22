@@ -1,5 +1,7 @@
 # AtomicRenamer
 
+> This small class is functional but it is greatly superseded by [Fragmenstein](https://github.com/matteoferla/Fragmenstein), which can be used for renaming and a lot more.
+
 Given a molecule label the atoms (names/labels) according to a reference ligand from the PDB.
 
 ## Why?
@@ -51,7 +53,7 @@ These labels can be saved as `mol2` in a convoluted way, becuase the mol2 writer
     >>> AtomicNamer.fix('guanine.mol2', 'guanine.better.mol2', labels)
     >>> os.system(f"obabel -i mol2 guanine2.better.mol2 -o mol2 -O guanine.conf.mol2 --conformer --nconf 30 --writeconformers")
 
-Once this is done, the mol2 can be used. If using Rosetta and are about to parametrise it, why not check out my [2to3 port of mol_to_params.py](https://github.com/matteoferla/mol_to_params.py)?
+Once this is done, the mol2 can be used. If using Rosetta and are about to parametrise it, why not check out my [rdkit to params file converter](https://github.com/matteoferla/rdkit_to_params)?
 
 Also, for more stuff, see [my blog post about Rdkit](https://blog.matteoferla.com/2019/10/rdkit-for-rosetta-plp-ligand-space-as.html).
 
